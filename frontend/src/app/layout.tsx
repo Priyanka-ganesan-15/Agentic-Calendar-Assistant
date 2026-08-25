@@ -1,0 +1,36 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+import { AuthProvider } from "@descope/nextjs-sdk";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Agentic-Calendar-App",
+  description: "Agentic-fullstack-project",
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  const projectId = process.env.NEXT_PUBLIC_DESCOPE_PROJECT_ID ?? "";
+
+  const cookieOptions = {
+    sameSite : "Lax" as const,
+    secure : process.env.NODE_ENV !== 'development' 
+  }
+  return (
+    <AuthProvider projectId={projectId} sessionTokenViaCookie = {cookieOptions} refreshTokenViaCookie = {cookieOptions}>
+        <html lang="en">
+          <body>{children}</body>
+        </html>
+      </AuthProvider>
+	);
+}
