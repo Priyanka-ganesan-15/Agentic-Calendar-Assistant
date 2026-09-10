@@ -2,8 +2,7 @@ import 'dotenv/config'
 import cors from 'cors'
 import express from 'express'
 import { getPool } from './db/pool.js';
-import {Pool} from 'pg'
-
+import { connectionRouter } from "./routes/connection.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 4000;
@@ -18,6 +17,7 @@ app.use(
 
 app.use(express.json())
 
+
 app.get("/health", async (req, res) => {
   try {
     await getPool().query("SELECT 1");
@@ -29,3 +29,5 @@ app.get("/health", async (req, res) => {
 app.listen(port, ()=>{
     console.log(`Agentic Calendar is running on port: ${port}`);
 })
+
+app.use("/api/connections", connectionRouter);

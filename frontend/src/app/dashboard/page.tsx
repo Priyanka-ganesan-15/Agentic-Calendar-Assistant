@@ -1,7 +1,7 @@
 "use client";
 
-//import ChatPanel from "@/components/dashboard/chat-panel";
-//import ConnectionsPanel from "@/components/dashboard/connection-panel";
+import ChatPanel from "@/components/dashboard/chat-panel";
+import ConnectionsPanel from "@/components/dashboard/connections-panel";
 import { Button } from "@/components/ui/button";
 import { useDescope, useSession, useUser } from "@descope/nextjs-sdk/client";
 import { LogOut } from "lucide-react";
@@ -45,33 +45,28 @@ function DashboardPage() {
   }
 
   return (
-
-    <div>
-        dashboard page
-        <Button onClick={handleLogout}>Logout</Button>
+    <div className={styles.shell}>
+      <ChatPanel
+        sessionToken={sessionToken}
+        connections={<ConnectionsPanel sessionToken={sessionToken} />}
+        footer={
+          <>
+            <div className={styles.userLabel}>
+              {isUserLoading ? "Loading..." : label}
+            </div>
+            <Button
+              variant="ghost"
+              className={styles.logoutBtn}
+              disabled={loggingOut}
+              onClick={() => handleLogout()}
+            >
+              <LogOut className={styles.logoutIcon} />
+              {loggingOut ? "Logging out..." : "Log out"}
+            </Button>
+          </>
+        }
+      />
     </div>
-    // <div className={styles.shell}>
-    //   <ChatPanel
-    //     sessionToken={sessionToken}
-    //     connections={<ConnectionsPanel sessionToken={sessionToken} />}
-    //     footer={
-    //       <>
-    //         <div className={styles.userLabel}>
-    //           {isUserLoading ? "Loading..." : label}
-    //         </div>
-    //         <Button
-    //           variant="ghost"
-    //           className={styles.logoutBtn}
-    //           disabled={loggingOut}
-    //           onClick={() => handleLogout()}
-    //         >
-    //           <LogOut className={styles.logoutIcon} />
-    //           {loggingOut ? "Logging out..." : "Log out"}
-    //         </Button>
-    //       </>
-    //     }
-    //   />
-    // </div>
   );
 }
 
