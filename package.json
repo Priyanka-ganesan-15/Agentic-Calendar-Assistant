@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@mastra/memory": "^1.30.0"
+  }
+}
